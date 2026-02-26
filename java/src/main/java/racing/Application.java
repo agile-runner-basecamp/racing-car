@@ -9,34 +9,36 @@ public class Application {
         // TODO: 프로그램 구현
         Scanner scanner = new Scanner(System.in);
         RandomGenerator generator = new RandomGenerator();
-        InitData initData = initialize(scanner);
-        Race race = new Race(initData.carList, generator);
+        OutputHandler out = new OutputHandler();
+        InputHandler in = new InputHandler();
+
+        InitData initData = initialize(scanner, in);
+        Race race = new Race(initData.cars, generator, out);
 
         race.start(initData.finalRound);
     }
-    // 자동차 이름과 라운드 수를 InitData로 묶어서 반환
-    private static InitData initialize(Scanner scanner) {
-        // 출력 로직 분리
-        System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분)");
 
-        List<Car> carList = new ArrayList<>();
-        String input = scanner.nextLine();
+    // 자동차 이름과 라운드 수를 InitData로 묶어서 반환
+    private static InitData initialize(Scanner scanner, InputHandler in) {
+        String input = in.readCarNames(scanner);
         String[] carNames = input.split(",");
 
-        for(int i=0; i<carNames.length; i++){
-            carNames[i] = carNames[i].trim();
+        for(int index=0; index<carNames.length; index++){
+            carNames[index] = carNames[index].trim();
         }
 
-        System.out.println("시도할 횟수는 몇 회인가요?");
-        int finalRound = scanner.nextInt();
+        int finalRound = in.readFinalRound(scanner);
 
         // 각 자동차 객체 생성
+        List<Car> carList = new ArrayList<>();
         for(String carName : carNames){
             carList.add(new Car(carName));
         }
 
-        return new InitData(carList, finalRound);
+        Cars cars = new Cars(carList);
+
+        return new InitData(cars, finalRound);
     }
 
-    private record InitData(List<Car> carList, int finalRound) {}
+    private record InitData(Cars cars, int finalRound) {}
 }

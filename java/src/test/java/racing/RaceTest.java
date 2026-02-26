@@ -22,6 +22,7 @@ class RaceTest {
         cars.getCars().get(0).move();
         cars.getCars().get(2).move();
 
+        // when
         List<Car> winners = cars.findWinners();
 
         // then

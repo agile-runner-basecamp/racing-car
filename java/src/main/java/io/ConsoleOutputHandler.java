@@ -1,6 +1,9 @@
 package io;
 
-import java.util.Scanner;
+import racing.Car;
+import racing.Cars;
+
+import java.util.List;
 
 public class ConsoleOutputHandler implements OutputHandler{
 
@@ -14,8 +17,24 @@ public class ConsoleOutputHandler implements OutputHandler{
         System.out.println("시도할 회수는 몇회인가요?");
     }
 
-    public void showRoundResult(){
+    @Override
+    public void showResultMessage(){
         System.out.println("실행 결과");
+    }
 
+    public void showRoundResult(Cars cars){
+        for(int i = 0; i < cars.size(); i++){
+            Car car = cars.getCarByIndex(i);
+            System.out.println(car.getName() + " : " + "-".repeat(car.getPosition()));
+        }
+        System.out.println();
+    }
+
+    @Override
+    public void showWinnerName(List<String> carName) {
+        for(int i = 0; i < carName.size(); i++){
+            System.out.print(carName.get(i) + ", ");
+        }
+        System.out.println("가 최종 우승했습니다.");
     }
 }

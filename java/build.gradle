@@ -1,5 +1,14 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'racing.Application'
+}
+
+run {
+    standardInput = System.in
 }
 
 group = 'onboarding'
